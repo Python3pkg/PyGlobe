@@ -1,4 +1,4 @@
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 
 from .exceptions import *
 
@@ -66,7 +66,7 @@ class PyGlobe(object):
         try:
             import suds
             self.service = suds.client.Client(self.wsdl)
-        except urllib2.URLError:
+        except urllib.error.URLError:
             raise PyGlobeInvalidServiceException('Service Unknown')
         except ValueError:
             raise PyGlobeInvalidURLException('Invalid URL')
@@ -105,12 +105,12 @@ class PyGlobe(object):
         try:
             ret = self.service.service.sendSMS(self.uname, self.pin, self.msisdn, message, self.display, self.udh, self.mwi, self.coding)
             return self.translateMsg(ret)
-        except urllib2.URLError:
+        except urllib.error.URLError:
             raise PyGlobeInvalidServiceException('Service Unknown')
         
     def sendMMS(self, subject, smil):
         try:
             ret = self.service.service.sendMMS(self.uname, self.pin, self.msisdn, subject, smil)
             return self.translateMsg(ret)
-        except urllib2.URLError:
+        except urllib.error.URLError:
             raise PyGlobeInvalidServiceException('Service Unknown')
